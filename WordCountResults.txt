@@ -1,3 +1,4 @@
+Row Labels	Count
 mother: 1
 tions: 1
 pin: 1

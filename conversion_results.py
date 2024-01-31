@@ -76,10 +76,14 @@ class ConversionArray(list):
         return self._hexadecimal_numbers
 
     def __str__(self):
-        return (
-            f"Binary numbers: {self.get_binary_numbers()}\n"+
-            f"Hexadecimal numbers: {self.get_hexadecimal_numbers()}"
-        )
+        result_string = "NUMBER		TC1	BIN	HEX\n"
+        hexadecimal_numbers_dict = self.get_hexadecimal_numbers()
+
+        for index, (key, value) in enumerate(self.get_binary_numbers().items()):
+            result_string += f"{index+1} {key} {value} {hexadecimal_numbers_dict[key]}\n"
+
+        # Remove the trailing comma and space
+        return result_string.rstrip(", ")
 
 def print_numbers(file_path):
     """

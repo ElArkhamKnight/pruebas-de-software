@@ -1,5 +1,5 @@
 """
-Program created to read a file that is assumed to contain only numbers
+Program created to read a file that is assumed to contain words
 """
 # filename: print_numbers.py
 import sys
@@ -40,7 +40,7 @@ class ConversionArray(list):
         return self._word_frequency_dict
 
     def __str__(self):
-        result_string = ""
+        result_string = "Row Labels	Count\n"
 
         for key, value in self.get_word_frequency_dict().items():
             result_string += f"{key}: {value}\n"
