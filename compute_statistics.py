@@ -11,11 +11,24 @@ class StatisticsArray(list):
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self._original_count = None
         self._mean = None
         self._median = None
         self._mode = None
         self._standard_deviation = None
         self._variance = None
+
+    def set_original_count(self, _original_count):
+        """
+        Method used to calculate the mean of the elements that the class contains
+        """
+        self._original_count = _original_count
+
+    def get_original_count(self):
+        """
+        Method used to get the mean of the class
+        """
+        return self._original_count
 
     def calculate_mean(self):
         """
@@ -127,9 +140,9 @@ class StatisticsArray(list):
 
     def __str__(self):
         return (
-            f"Statistics.\nMean: {self.get_mean()}\nMedian: {self.get_median()}\n"
-            f"Mode: {self.get_mode()}\nStandard deviation: {self.get_standard_deviation()}\n"
-            f"Variance: {self.get_variance()}"
+            f"Statistics.\nCOUNT: {self.get_original_count()}\nMean: {self.get_mean()}\n"
+            f"Median: {self.get_median()}\nMode: {self.get_mode()}\n"
+            f"Standard deviation: {self.get_standard_deviation()}\nVariance: {self.get_variance()}"
         )
 
 def print_numbers(file_path):
@@ -138,6 +151,9 @@ def print_numbers(file_path):
     """
     try:
         start_time = time.time()
+        with open(file_path, 'r', encoding="utf-8") as file:
+            lines = file.readlines()
+
         with open(file_path, 'r', encoding="utf-8") as file:
             # Read the numbers from the file and convert them to a list
             numbers = []
@@ -148,6 +164,7 @@ def print_numbers(file_path):
                     print(f"Error: File contains non-numeric values in line {index+1}")
 
             custom_array = StatisticsArray(numbers)
+            custom_array.set_original_count(len(lines))
             custom_array.calculate_mean()
             custom_array.calculate_median()
             custom_array.calculate_mode()
