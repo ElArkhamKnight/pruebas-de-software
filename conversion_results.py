@@ -14,18 +14,28 @@ class ConversionArray(list):
         self._binary_numbers = None
         self._hexadecimal_numbers = None
 
-    def _decimal_to_binary(self, number):
-        binary_representation = ""
+    def _decimal_to_binary(self, decimal):
+        binary = ""
 
-        if number == 0:
+        if decimal == 0:
             return "0"
 
-        while number > 0:
-            remainder = number % 2
-            binary_representation = str(remainder) + binary_representation
-            number //= 2
+        if decimal < 0:
+            is_negative = True
+            decimal = abs(decimal)
+        else:
+            is_negative = False
 
-        return binary_representation
+        while decimal > 0:
+            remainder = decimal % 2
+            binary = str(remainder) + binary
+            decimal //= 2
+
+        if is_negative:
+            # Add leading 1s to complete the Two's complement representation
+            binary = '1' * (32 - len(binary)) + binary
+
+        return binary
 
     def calculate_binary_numbers(self):
         """
@@ -44,19 +54,29 @@ class ConversionArray(list):
         """
         return self._binary_numbers
 
-    def _decimal_to_hexadecimal(self, number):
+    def _decimal_to_hexadecimal(self, decimal):
         hexadecimal_chars = "0123456789ABCDEF"
-        hexadecimal_representation = ""
+        hexadecimal = ""
 
-        if number == 0:
+        if decimal == 0:
             return "0"
 
-        while number > 0:
-            remainder = number % 16
-            hexadecimal_representation = hexadecimal_chars[remainder] + hexadecimal_representation
-            number //= 16
+        if decimal < 0:
+            is_negative = True
+            decimal = abs(decimal)
+        else:
+            is_negative = False
 
-        return hexadecimal_representation
+        while decimal > 0:
+            remainder = decimal % 16
+            hexadecimal = hexadecimal_chars[remainder] + hexadecimal
+            decimal //= 16
+
+        if is_negative:
+            # Add leading Fs to complete the Two's complement representation
+            hexadecimal = 'F' * (8 - len(hexadecimal)) + hexadecimal
+
+        return hexadecimal
 
     def calculate_hexadecimal_numbers(self):
         """
