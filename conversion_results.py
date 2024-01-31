@@ -76,7 +76,7 @@ class ConversionArray(list):
         return self._hexadecimal_numbers
 
     def __str__(self):
-        result_string = "NUMBER		TC1	BIN	HEX\n"
+        result_string = "INDEX		NUMBER	BIN	HEX\n"
         hexadecimal_numbers_dict = self.get_hexadecimal_numbers()
 
         for index, (key, value) in enumerate(self.get_binary_numbers().items()):
