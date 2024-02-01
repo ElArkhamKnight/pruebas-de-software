@@ -60,31 +60,45 @@ class ConversionArray(list):
         super().__init__(*args, **kwargs)
         self._conversion_array = None
 
-    def _decimal_to_binary(self, number):
-        """
-        Convert one number to binary
-        """
+    def _decimal_to_binary(self, number, num_bits=9):
+
+        if number == 0:
+            return 0
+
         binary_representation = ""
-        is_negative = False
+
+        abs_value = abs(number)
+        for _ in range(num_bits - 1):
+            binary_representation = str(abs_value % 2) + binary_representation
+            abs_value //= 2
 
         if number < 0:
-            is_negative = True
-            number = abs(number)
+            inverted_bits = ''.join(['1' if bit == '0' else '0' for bit in binary_representation])
+            carry = 1
+            result = ""
+            for bit in inverted_bits[::-1]:
+                current_bit = str((int(bit) + carry) % 2)
+                carry = (int(bit) + carry) // 2
+                result = current_bit + result
 
-        while number > 0:
-            remainder = number % 2
-            binary_representation = str(remainder) + binary_representation
-            number = number // 2
-
-        if is_negative:
-            binary_representation = ''.join(
-                ['1' if bit == '0' else '0' for bit in binary_representation]
-            )
+            binary_representation = result
             binary_representation = '1' + binary_representation
+        else:
+            found_positive = False
+            while found_positive is False:
+                first_character = binary_representation[0]
+                if first_character == "1":
+                    found_positive = True
+                else:
+                    binary_representation = binary_representation[1:]
 
         return binary_representation
 
     def _decimal_to_hexadecimal(self, decimal_number):
+
+        if decimal_number == 0:
+            return 0
+
         if decimal_number < 0:
             # Convert negative numbers to 2's complement hexadecimal representation
             hex_digits = "0123456789ABCDEF"
