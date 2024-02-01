@@ -60,28 +60,29 @@ class ConversionArray(list):
         super().__init__(*args, **kwargs)
         self._conversion_array = None
 
-    def _decimal_to_binary(self, decimal):
-        binary = ""
+    def _decimal_to_binary(self, number):
+        """
+        Convert one number to binary
+        """
+        binary_representation = ""
+        is_negative = False
 
-        if decimal == 0:
-            return "0"
-
-        if decimal < 0:
+        if number < 0:
             is_negative = True
-            decimal = abs(decimal)
-        else:
-            is_negative = False
+            number = abs(number)
 
-        while decimal > 0:
-            remainder = decimal % 2
-            binary = str(remainder) + binary
-            decimal //= 2
+        while number > 0:
+            remainder = number % 2
+            binary_representation = str(remainder) + binary_representation
+            number = number // 2
 
         if is_negative:
-            # Add leading 1s to complete the Two's complement representation
-            binary = '1' * (32 - len(binary)) + binary
+            binary_representation = ''.join(
+                ['1' if bit == '0' else '0' for bit in binary_representation]
+            )
+            binary_representation = '1' + binary_representation
 
-        return binary
+        return binary_representation
 
     def _decimal_to_hexadecimal(self, decimal_number):
         if decimal_number < 0:
