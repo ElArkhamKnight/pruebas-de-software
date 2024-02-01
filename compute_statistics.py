@@ -67,26 +67,6 @@ class StatisticsArray(list):
         """
         return self._median
 
-    def NOT_calculate_mode(self):
-        """
-        Method used to calculate the mode of the elements that the class contains
-        """
-        # Create a dictionary to store the count of each element
-        count_dict = {}
-
-        # Count occurrences of each element
-        for element in self:
-            if element in count_dict:
-                count_dict[element] += 1
-            else:
-                count_dict[element] = 1
-
-        # Find the element(s) with the maximum count(s)
-        max_count = max(count_dict.values())
-        mode_elements = [element for element, count in count_dict.items() if count == max_count]
-
-        self._mode = mode_elements
-
     def calculate_mode(self):
         """
         Method used to calculate the mode of the elements that the class contains
