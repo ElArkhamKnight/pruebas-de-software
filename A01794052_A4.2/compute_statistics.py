@@ -114,7 +114,7 @@ class StatisticsArray(list):
         """
         return self._standard_deviation
 
-    def calculate_variance(self):
+    def not_calculate_variance(self):
         """
         Method used to calculate the variance of the elements that the class contains
         """
@@ -128,6 +128,23 @@ class StatisticsArray(list):
         variance = sum(squared_diff) / len(self)
 
         self._variance = variance
+
+    def calculate_variance(self):
+        """
+        Method used to calculate the variance of the elements that the class contains
+        """
+        n = len(self)
+
+        # Calculate the mean
+        mean = sum(self) / n
+
+        # Calculate the sum of squared differences
+        sum_squared_diff = sum((x - mean) ** 2 for x in self)
+
+        # Calculate the sample variance
+        sample_variance = sum_squared_diff / (n - 1)
+
+        self._variance = sample_variance
 
     def get_variance(self):
         """

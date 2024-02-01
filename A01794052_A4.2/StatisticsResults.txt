@@ -1,10 +1,10 @@
 Statistics.
-COUNT: 311
-Mean: 241.49511400651465
-Median: 241.0
+COUNT: 400
+Mean: 242.32
+Median: 239.5
 Mode: 393.0
-Standard deviation: 145.46484786056646
-Variance: 21160.021963097748
+Standard deviation: 145.25810683056557
+Variance: 21152.79959899749
 
 
-Time of execution: 15.644550 milliseconds
+Time of execution: 0.000000 milliseconds
