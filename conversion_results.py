@@ -5,14 +5,60 @@ Program created to read a file that is assumed to contain only numbers
 import sys
 import time
 
+class ConversionObject():
+    """
+    Class to store number info as well as it's equivalent values in binary and hexadecimal
+    """
+    def __init__(self):
+        self._number = None
+        self._bin_number = None
+        self._hex_number = None
+
+    def set_number(self, number):
+        """
+        Method to set the number
+        """
+        self._number = number
+
+    def get_number(self):
+        """
+        Method to get the number
+        """
+        return self._number
+
+    def set_bin_number(self, bin_number):
+        """
+        Method to set the bin number
+        """
+        self._bin_number = bin_number
+
+    def get_bin_number(self):
+        """
+        Method to get the bin number
+        """
+        return self._bin_number
+
+    def set_hex_number(self, hex_number):
+        """
+        Method to set the hex number
+        """
+        self._hex_number = hex_number
+
+    def get_hex_number(self):
+        """
+        Method to get the hex number
+        """
+        return self._hex_number
+
+    def __str__(self):
+        return f"{self.get_number()} {self.get_bin_number()} {self.get_hex_number()}"
 class ConversionArray(list):
     """
     Custom class which extends list and does required computation of it's elements
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self._binary_numbers = None
-        self._hexadecimal_numbers = None
+        self._conversion_array = None
 
     def _decimal_to_binary(self, decimal):
         binary = ""
@@ -37,73 +83,65 @@ class ConversionArray(list):
 
         return binary
 
-    def calculate_binary_numbers(self):
-        """
-        Method used to calculate the binary numbers of the elements that the class contains
-        """
-        binary_result = {}
-
-        for num in self:
-            binary_result[num] = self._decimal_to_binary(num)
-
-        self._binary_numbers = binary_result
-
-    def get_binary_numbers(self):
-        """
-        Method used to get the binary numbers of the class
-        """
-        return self._binary_numbers
-
-    def _decimal_to_hexadecimal(self, decimal):
-        hexadecimal_chars = "0123456789ABCDEF"
-        hexadecimal = ""
-
-        if decimal == 0:
-            return "0"
-
-        if decimal < 0:
-            is_negative = True
-            decimal = abs(decimal)
+    def _decimal_to_hexadecimal(self, decimal_number):
+        if decimal_number < 0:
+            # Convert negative numbers to 2's complement hexadecimal representation
+            hex_digits = "0123456789ABCDEF"
+            hex_value = ""
+            decimal_number = (1 << 32) + decimal_number  # 2's complement
+            while decimal_number > 0:
+                remainder = decimal_number % 16
+                hex_value = hex_digits[remainder] + hex_value
+                decimal_number //= 16
+            return hex_value
         else:
-            is_negative = False
+            hex_digits = "0123456789ABCDEF"
+            hex_value = ""
+            while decimal_number > 0:
+                remainder = decimal_number % 16
+                hex_value = hex_digits[remainder] + hex_value
+                decimal_number //= 16
+            return hex_value
 
-        while decimal > 0:
-            remainder = decimal % 16
-            hexadecimal = hexadecimal_chars[remainder] + hexadecimal
-            decimal //= 16
-
-        if is_negative:
-            # Add leading Fs to complete the Two's complement representation
-            hexadecimal = 'F' * (8 - len(hexadecimal)) + hexadecimal
-
-        return hexadecimal
-
-    def calculate_hexadecimal_numbers(self):
+    def calculate_binary_and_hexadecimal_numbers(self):
         """
         Method used to calculate the hexadecimal numbers of the elements that the class contains
         """
-        hexadecimal_result = {}
+        conversion_array = []
 
         for num in self:
-            hexadecimal_result[num] = self._decimal_to_hexadecimal(num)
+            conversion_object = ConversionObject()
+            try:
+                int_num = int(num)
+                conversion_object.set_number(int_num)
+                binary = self._decimal_to_binary(int_num)
+                conversion_object.set_bin_number(binary)
+                hexadecimal = self._decimal_to_hexadecimal(int_num)
+                conversion_object.set_hex_number(hexadecimal)
+                conversion_array.append(conversion_object)
+            except ValueError:
+                error_value = "#VALUE!"
+                conversion_object.set_number(num)
+                conversion_object.set_bin_number(error_value)
+                conversion_object.set_hex_number(error_value)
+                conversion_array.append(conversion_object)
 
-        self._hexadecimal_numbers = hexadecimal_result
+        self._conversion_array = conversion_array
 
-    def get_hexadecimal_numbers(self):
+    def get_conversion_array(self):
         """
         Method used to get the hexadecimal numbers of the class
         """
-        return self._hexadecimal_numbers
+        return self._conversion_array
 
     def __str__(self):
         result_string = "INDEX		NUMBER	BIN	HEX\n"
-        hexadecimal_numbers_dict = self.get_hexadecimal_numbers()
 
-        for index, (key, value) in enumerate(self.get_binary_numbers().items()):
-            result_string += f"{index+1} {key} {value} {hexadecimal_numbers_dict[key]}\n"
+        for index, conversion_object in enumerate(self._conversion_array):
+            result_string += f"{index+1} {conversion_object}\n"
 
         # Remove the trailing comma and space
-        return result_string.rstrip(", ")
+        return result_string
 
 def print_numbers(file_path):
     """
@@ -114,15 +152,11 @@ def print_numbers(file_path):
         with open(file_path, 'r', encoding="utf-8") as file:
             # Read the numbers from the file and convert them to a list
             numbers = []
-            for index, line in enumerate(file):
-                try:
-                    numbers.append(int(line.strip()))
-                except ValueError:
-                    print(f"Error: File contains non-numeric values in line {index+1}")
+            for line in file:
+                numbers.append(line.strip())
 
             custom_array = ConversionArray(numbers)
-            custom_array.calculate_binary_numbers()
-            custom_array.calculate_hexadecimal_numbers()
+            custom_array.calculate_binary_and_hexadecimal_numbers()
             end_time = time.time()
             elapsed_time_ms = (end_time - start_time) * 1000
 

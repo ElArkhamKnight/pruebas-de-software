@@ -67,7 +67,7 @@ class StatisticsArray(list):
         """
         return self._median
 
-    def calculate_mode(self):
+    def NOT_calculate_mode(self):
         """
         Method used to calculate the mode of the elements that the class contains
         """
@@ -86,6 +86,23 @@ class StatisticsArray(list):
         mode_elements = [element for element, count in count_dict.items() if count == max_count]
 
         self._mode = mode_elements
+
+    def calculate_mode(self):
+        """
+        Method used to calculate the mode of the elements that the class contains
+        """
+        if not self:
+            return "N/A"
+
+        frequency = {}
+        for num in self:
+            frequency[num] = frequency.get(num, 0) + 1
+
+        max_frequency = max(frequency.values())
+
+        mode = [key for key, value in frequency.items() if value == max_frequency]
+
+        self._mode = "N/A" if len(mode) == len(frequency.values()) else mode[0]
 
     def get_mode(self):
         """
