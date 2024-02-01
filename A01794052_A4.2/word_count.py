@@ -41,9 +41,13 @@ class ConversionArray(list):
 
     def __str__(self):
         result_string = "Row Labels	Count\n"
+        word_frequency_dict = self.get_word_frequency_dict()
 
-        for key, value in self.get_word_frequency_dict().items():
+        for key, value in word_frequency_dict.items():
             result_string += f"{key}: {value}\n"
+
+        total_sum = sum(word_frequency_dict.values())
+        result_string += f"Grand Total {total_sum}"
 
         # Remove the trailing comma and space
         return result_string.rstrip(", ")

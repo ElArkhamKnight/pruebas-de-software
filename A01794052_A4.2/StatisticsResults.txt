@@ -7,4 +7,4 @@ Standard deviation: 145.46484786056646
 Variance: 21160.021963097748
 
 
-Time of execution: 11.242628 milliseconds
+Time of execution: 15.644550 milliseconds

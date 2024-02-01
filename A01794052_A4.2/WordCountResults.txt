@@ -98,7 +98,7 @@ influences: 1
 kodak: 1
 significance: 1
 coastal: 1
-
+Grand Total 100
 
 
 Time of execution: 0.000000 milliseconds
