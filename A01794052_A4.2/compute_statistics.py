@@ -114,21 +114,6 @@ class StatisticsArray(list):
         """
         return self._standard_deviation
 
-    def not_calculate_variance(self):
-        """
-        Method used to calculate the variance of the elements that the class contains
-        """
-        # Calculate mean
-        mean = sum(self) / len(self)
-
-        # Calculate squared differences from the mean
-        squared_diff = [(x - mean) ** 2 for x in self]
-
-        # Calculate variance as the average of squared differences
-        variance = sum(squared_diff) / len(self)
-
-        self._variance = variance
-
     def calculate_variance(self):
         """
         Method used to calculate the variance of the elements that the class contains
