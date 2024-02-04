@@ -5,9 +5,11 @@ Program created to read a file that is assumed to contain words
 import sys
 import time
 
+
 class ConversionArray(list):
     """
-    Custom class which extends list and does required computation of it's elements
+    Custom class which extends list and
+    does required computation of it's elements
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -15,8 +17,8 @@ class ConversionArray(list):
 
     def calculate_word_frequency(self):
         """
-        Method used to calculate the word frequency dictionary of the elements that the class
-        contains
+        Method used to calculate the word frequency
+        dictionary of the elements that the class contains
         """
         word_freq = {}
 
@@ -52,6 +54,7 @@ class ConversionArray(list):
         # Remove the trailing comma and space
         return result_string.rstrip(", ")
 
+
 def print_numbers(file_path):
     """
     Method to print the numbers that the file contains
@@ -65,7 +68,10 @@ def print_numbers(file_path):
                 try:
                     numbers.append(line.strip())
                 except ValueError:
-                    print(f"Error: File contains non-numeric values in line {index+1}")
+                    print(
+                        f"Error: File contains non-numeric "
+                        f"values in line {index+1}"
+                    )
 
             custom_array = ConversionArray(numbers)
             custom_array.calculate_word_frequency()
@@ -74,7 +80,9 @@ def print_numbers(file_path):
 
             print(custom_array)
             print("\n")
-            execution_time_result = f"Time of execution: {elapsed_time_ms:.6f} milliseconds"
+            execution_time_result = (
+                f"Time of execution: {elapsed_time_ms:.6f} milliseconds"
+            )
             print(execution_time_result)
             with open("WordCountResults.txt", "w", encoding="utf-8") as file:
                 # Print the object to the file using the print function
@@ -82,9 +90,9 @@ def print_numbers(file_path):
                 print("\n", file=file)
                 print(execution_time_result, file=file)
 
-
     except FileNotFoundError:
         print(f"Error: File '{file_path}' not found.")
+
 
 if __name__ == "__main__":
     # Check if a file path is provided as a command line argument

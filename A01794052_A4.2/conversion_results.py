@@ -5,9 +5,11 @@ Program created to read a file that is assumed to contain only numbers
 import sys
 import time
 
+
 class ConversionObject():
     """
-    Class to store number info as well as it's equivalent values in binary and hexadecimal
+    Class to store number info as well as
+    it's equivalent values in binary and hexadecimal
     """
     def __init__(self):
         self._number = None
@@ -51,10 +53,16 @@ class ConversionObject():
         return self._hex_number
 
     def __str__(self):
-        return f"{self.get_number()} {self.get_bin_number()} {self.get_hex_number()}"
+        return (
+            f"{self.get_number()} {self.get_bin_number()} "
+            f"{self.get_hex_number()}"
+        )
+
+
 class ConversionArray(list):
     """
-    Custom class which extends list and does required computation of it's elements
+    Custom class which extends list
+    and does required computation of it's elements
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -73,7 +81,9 @@ class ConversionArray(list):
             abs_value //= 2
 
         if number < 0:
-            inverted_bits = ''.join(['1' if bit == '0' else '0' for bit in binary_representation])
+            inverted_bits = ''.join([
+                '1' if bit == '0' else '0' for bit in binary_representation
+            ])
             carry = 1
             result = ""
             for bit in inverted_bits[::-1]:
@@ -100,7 +110,8 @@ class ConversionArray(list):
             return 0
 
         if decimal_number < 0:
-            # Convert negative numbers to 2's complement hexadecimal representation
+            # Convert negative numbers to 2's
+            # complement hexadecimal representation
             hex_digits = "0123456789ABCDEF"
             hex_value = ""
             decimal_number = (1 << 32) + decimal_number  # 2's complement
@@ -120,7 +131,8 @@ class ConversionArray(list):
 
     def calculate_binary_and_hexadecimal_numbers(self):
         """
-        Method used to calculate the hexadecimal numbers of the elements that the class contains
+        Method used to calculate the hexadecimal numbers
+        of the elements that the class contains
         """
         conversion_array = []
 
@@ -158,6 +170,7 @@ class ConversionArray(list):
         # Remove the trailing comma and space
         return result_string
 
+
 def print_numbers(file_path):
     """
     Method to print the numbers that the file contains
@@ -177,7 +190,9 @@ def print_numbers(file_path):
 
             print(custom_array)
             print("\n")
-            execution_time_result = f"Time of execution: {elapsed_time_ms:.6f} milliseconds"
+            execution_time_result = (
+                f"Time of execution: {elapsed_time_ms:.6f} milliseconds"
+            )
             print(execution_time_result)
             with open("ConvertionResults.txt", "w", encoding="utf-8") as file:
                 # Print the object to the file using the print function
@@ -185,9 +200,9 @@ def print_numbers(file_path):
                 print("\n", file=file)
                 print(execution_time_result, file=file)
 
-
     except FileNotFoundError:
         print(f"Error: File '{file_path}' not found.")
+
 
 if __name__ == "__main__":
     # Check if a file path is provided as a command line argument

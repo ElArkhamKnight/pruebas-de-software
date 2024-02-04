@@ -5,9 +5,11 @@ Program created to read a file that is assumed to contain only numbers
 import sys
 import time
 
+
 class StatisticsArray(list):
     """
-    Custom class which extends list and does required computation of it's elements
+    Custom class which extends list
+    and does required computation of it's elements
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -20,7 +22,8 @@ class StatisticsArray(list):
 
     def set_original_count(self, _original_count):
         """
-        Method used to calculate the mean of the elements that the class contains
+        Method used to calculate the mean
+        of the elements that the class contains
         """
         self._original_count = _original_count
 
@@ -32,7 +35,8 @@ class StatisticsArray(list):
 
     def calculate_mean(self):
         """
-        Method used to calculate the mean of the elements that the class contains
+        Method used to calculate the mean
+        of the elements that the class contains
         """
         self._mean = sum(self) / len(self)
 
@@ -44,14 +48,16 @@ class StatisticsArray(list):
 
     def calculate_median(self):
         """
-        Method used to calculate the median of the elements that the class contains
+        Method used to calculate the median
+        of the elements that the class contains
         """
         sorted_array = sorted(self)
         n = len(sorted_array)
         median = None
 
         if n % 2 == 0:
-            # If the length of the array is even, take the average of the middle two elements
+            # If the length of the array is even,
+            # take the average of the middle two elements
             middle_left = sorted_array[n // 2 - 1]
             middle_right = sorted_array[n // 2]
             median = (middle_left + middle_right) / 2
@@ -69,7 +75,8 @@ class StatisticsArray(list):
 
     def calculate_mode(self):
         """
-        Method used to calculate the mode of the elements that the class contains
+        Method used to calculate the mode
+        of the elements that the class contains
         """
         if not self:
             return "N/A"
@@ -80,7 +87,9 @@ class StatisticsArray(list):
 
         max_frequency = max(frequency.values())
 
-        mode = [key for key, value in frequency.items() if value == max_frequency]
+        mode = [
+            key for key, value in frequency.items() if value == max_frequency
+        ]
 
         self._mode = "N/A" if len(mode) == len(frequency.values()) else mode[0]
 
@@ -92,7 +101,8 @@ class StatisticsArray(list):
 
     def calculate_standard_deviation(self):
         """
-        Method used to calculate the standard deviation of the elements that the class contains
+        Method used to calculate the standard deviation
+        of the elements that the class contains
         """
         # Calculate mean
         mean = sum(self) / len(self)
@@ -116,7 +126,8 @@ class StatisticsArray(list):
 
     def calculate_variance(self):
         """
-        Method used to calculate the variance of the elements that the class contains
+        Method used to calculate the variance
+        of the elements that the class contains
         """
         n = len(self)
 
@@ -139,10 +150,13 @@ class StatisticsArray(list):
 
     def __str__(self):
         return (
-            f"Statistics.\nCOUNT: {self.get_original_count()}\nMean: {self.get_mean()}\n"
+            f"Statistics.\nCOUNT: {self.get_original_count()}\n"
+            f"Mean: {self.get_mean()}\n"
             f"Median: {self.get_median()}\nMode: {self.get_mode()}\n"
-            f"Standard deviation: {self.get_standard_deviation()}\nVariance: {self.get_variance()}"
+            f"Standard deviation: {self.get_standard_deviation()}\n"
+            f"Variance: {self.get_variance()}"
         )
+
 
 def print_numbers(file_path):
     """
@@ -160,7 +174,10 @@ def print_numbers(file_path):
                 try:
                     numbers.append(float(line.strip()))
                 except ValueError:
-                    print(f"Error: File contains non-numeric values in line {index+1}")
+                    print(
+                        f"Error: File contains non_numeric "
+                        f"values in line {index+1}"
+                    )
 
             custom_array = StatisticsArray(numbers)
             custom_array.set_original_count(len(lines))
@@ -174,7 +191,10 @@ def print_numbers(file_path):
 
             print(custom_array)
             print("\n")
-            execution_time_result = f"Time of execution: {elapsed_time_ms:.6f} milliseconds"
+            execution_time_result = (
+                f"Time of execution: "
+                f"{elapsed_time_ms:.6f} milliseconds"
+            )
             print(execution_time_result)
             with open("StatisticsResults.txt", "w", encoding="utf-8") as file:
                 # Print the object to the file using the print function
@@ -182,9 +202,9 @@ def print_numbers(file_path):
                 print("\n", file=file)
                 print(execution_time_result, file=file)
 
-
     except FileNotFoundError:
         print(f"Error: File '{file_path}' not found.")
+
 
 if __name__ == "__main__":
     # Check if a file path is provided as a command line argument
