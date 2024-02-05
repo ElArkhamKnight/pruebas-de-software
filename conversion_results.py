@@ -75,10 +75,17 @@ class ConversionArray(list):
 
         binary_representation = ""
 
-        abs_value = abs(number)
-        for _ in range(num_bits - 1):
-            binary_representation = str(abs_value % 2) + binary_representation
-            abs_value //= 2
+        if number < 0:
+            abs_value = abs(number)
+            for _ in range(num_bits - 1):
+                bit_to_add = str(abs_value % 2)
+                binary_representation = bit_to_add + binary_representation
+                abs_value //= 2
+        else:
+            while number > 0:
+                remainder = number % 2
+                binary_representation = str(remainder) + binary_representation
+                number //= 2
 
         if number < 0:
             inverted_bits = ''.join([
@@ -93,14 +100,6 @@ class ConversionArray(list):
 
             binary_representation = result
             binary_representation = '1' + binary_representation
-        else:
-            found_positive = False
-            while found_positive is False:
-                first_character = binary_representation[0]
-                if first_character == "1":
-                    found_positive = True
-                else:
-                    binary_representation = binary_representation[1:]
 
         return binary_representation
 
